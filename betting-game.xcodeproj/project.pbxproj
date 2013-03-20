@@ -1,0 +1,204 @@
+// !$*UTF8*$!
+{
+	archiveVersion = 1;
+	classes = {
+	};
+	objectVersion = 46;
+	objects = {
+
+/* Begin PBXBuildFile section */
+		BA39F7E516F92DD5002B6B53 /* main.cpp in Sources */ = {isa = PBXBuildFile; fileRef = BA39F7DD16F92DD5002B6B53 /* main.cpp */; };
+/* End PBXBuildFile section */
+
+/* Begin PBXCopyFilesBuildPhase section */
+		8464C10C14683D7F00BDA7EB /* CopyFiles */ = {
+			isa = PBXCopyFilesBuildPhase;
+			buildActionMask = 2147483647;
+			dstPath = /usr/share/man/man1/;
+			dstSubfolderSpec = 0;
+			files = (
+			);
+			runOnlyForDeploymentPostprocessing = 1;
+		};
+/* End PBXCopyFilesBuildPhase section */
+
+/* Begin PBXFileReference section */
+		8464C10E14683D7F00BDA7EB /* betting-game */ = {isa = PBXFileReference; explicitFileType = "compiled.mach-o.executable"; includeInIndex = 0; path = "betting-game"; sourceTree = BUILT_PRODUCTS_DIR; };
+		BA39F7D816F92DD5002B6B53 /* betting-game.1 */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.man; path = "betting-game.1"; sourceTree = "<group>"; };
+		BA39F7DD16F92DD5002B6B53 /* main.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = main.cpp; sourceTree = "<group>"; };
+/* End PBXFileReference section */
+
+/* Begin PBXFrameworksBuildPhase section */
+		8464C10B14683D7F00BDA7EB /* Frameworks */ = {
+			isa = PBXFrameworksBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+/* End PBXFrameworksBuildPhase section */
+
+/* Begin PBXGroup section */
+		8464C10314683D7F00BDA7EB = {
+			isa = PBXGroup;
+			children = (
+				BA39F7D716F92DD5002B6B53 /* betting-game */,
+				8464C10F14683D7F00BDA7EB /* Products */,
+			);
+			sourceTree = "<group>";
+		};
+		8464C10F14683D7F00BDA7EB /* Products */ = {
+			isa = PBXGroup;
+			children = (
+				8464C10E14683D7F00BDA7EB /* betting-game */,
+			);
+			name = Products;
+			sourceTree = "<group>";
+		};
+		BA39F7D716F92DD5002B6B53 /* betting-game */ = {
+			isa = PBXGroup;
+			children = (
+				BA39F7D816F92DD5002B6B53 /* betting-game.1 */,
+				BA39F7DD16F92DD5002B6B53 /* main.cpp */,
+			);
+			path = "betting-game";
+			sourceTree = "<group>";
+		};
+/* End PBXGroup section */
+
+/* Begin PBXNativeTarget section */
+		8464C10D14683D7F00BDA7EB /* betting-game */ = {
+			isa = PBXNativeTarget;
+			buildConfigurationList = 8464C11814683D7F00BDA7EB /* Build configuration list for PBXNativeTarget "betting-game" */;
+			buildPhases = (
+				8464C10A14683D7F00BDA7EB /* Sources */,
+				8464C10B14683D7F00BDA7EB /* Frameworks */,
+				8464C10C14683D7F00BDA7EB /* CopyFiles */,
+			);
+			buildRules = (
+			);
+			dependencies = (
+			);
+			name = "betting-game";
+			productName = aBeeDa;
+			productReference = 8464C10E14683D7F00BDA7EB /* betting-game */;
+			productType = "com.apple.product-type.tool";
+		};
+/* End PBXNativeTarget section */
+
+/* Begin PBXProject section */
+		8464C10514683D7F00BDA7EB /* Project object */ = {
+			isa = PBXProject;
+			buildConfigurationList = 8464C10814683D7F00BDA7EB /* Build configuration list for PBXProject "betting-game" */;
+			compatibilityVersion = "Xcode 3.2";
+			developmentRegion = English;
+			hasScannedForEncodings = 0;
+			knownRegions = (
+				en,
+			);
+			mainGroup = 8464C10314683D7F00BDA7EB;
+			productRefGroup = 8464C10F14683D7F00BDA7EB /* Products */;
+			projectDirPath = "";
+			projectRoot = "";
+			targets = (
+				8464C10D14683D7F00BDA7EB /* betting-game */,
+			);
+		};
+/* End PBXProject section */
+
+/* Begin PBXSourcesBuildPhase section */
+		8464C10A14683D7F00BDA7EB /* Sources */ = {
+			isa = PBXSourcesBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+				BA39F7E516F92DD5002B6B53 /* main.cpp in Sources */,
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+/* End PBXSourcesBuildPhase section */
+
+/* Begin XCBuildConfiguration section */
+		8464C11614683D7F00BDA7EB /* Debug */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				ALWAYS_SEARCH_USER_PATHS = NO;
+				ARCHS = "$(ARCHS_STANDARD_64_BIT)";
+				COPY_PHASE_STRIP = NO;
+				GCC_C_LANGUAGE_STANDARD = gnu99;
+				GCC_DYNAMIC_NO_PIC = NO;
+				GCC_ENABLE_OBJC_EXCEPTIONS = YES;
+				GCC_OPTIMIZATION_LEVEL = 0;
+				GCC_PREPROCESSOR_DEFINITIONS = (
+					"DEBUG=1",
+					"$(inherited)",
+				);
+				GCC_SYMBOLS_PRIVATE_EXTERN = NO;
+				GCC_VERSION = com.apple.compilers.llvm.clang.1_0;
+				GCC_WARN_64_TO_32_BIT_CONVERSION = YES;
+				GCC_WARN_ABOUT_MISSING_PROTOTYPES = YES;
+				GCC_WARN_ABOUT_RETURN_TYPE = YES;
+				GCC_WARN_UNUSED_VARIABLE = YES;
+				MACOSX_DEPLOYMENT_TARGET = 10.7;
+				ONLY_ACTIVE_ARCH = YES;
+				SDKROOT = macosx;
+			};
+			name = Debug;
+		};
+		8464C11714683D7F00BDA7EB /* Release */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				ALWAYS_SEARCH_USER_PATHS = NO;
+				ARCHS = "$(ARCHS_STANDARD_64_BIT)";
+				COPY_PHASE_STRIP = YES;
+				DEBUG_INFORMATION_FORMAT = "dwarf-with-dsym";
+				GCC_C_LANGUAGE_STANDARD = gnu99;
+				GCC_ENABLE_OBJC_EXCEPTIONS = YES;
+				GCC_VERSION = com.apple.compilers.llvm.clang.1_0;
+				GCC_WARN_64_TO_32_BIT_CONVERSION = YES;
+				GCC_WARN_ABOUT_MISSING_PROTOTYPES = YES;
+				GCC_WARN_ABOUT_RETURN_TYPE = YES;
+				GCC_WARN_UNUSED_VARIABLE = YES;
+				MACOSX_DEPLOYMENT_TARGET = 10.7;
+				SDKROOT = macosx;
+			};
+			name = Release;
+		};
+		8464C11914683D7F00BDA7EB /* Debug */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				PRODUCT_NAME = "betting-game";
+			};
+			name = Debug;
+		};
+		8464C11A14683D7F00BDA7EB /* Release */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				PRODUCT_NAME = "betting-game";
+			};
+			name = Release;
+		};
+/* End XCBuildConfiguration section */
+
+/* Begin XCConfigurationList section */
+		8464C10814683D7F00BDA7EB /* Build configuration list for PBXProject "betting-game" */ = {
+			isa = XCConfigurationList;
+			buildConfigurations = (
+				8464C11614683D7F00BDA7EB /* Debug */,
+				8464C11714683D7F00BDA7EB /* Release */,
+			);
+			defaultConfigurationIsVisible = 0;
+			defaultConfigurationName = Release;
+		};
+		8464C11814683D7F00BDA7EB /* Build configuration list for PBXNativeTarget "betting-game" */ = {
+			isa = XCConfigurationList;
+			buildConfigurations = (
+				8464C11914683D7F00BDA7EB /* Debug */,
+				8464C11A14683D7F00BDA7EB /* Release */,
+			);
+			defaultConfigurationIsVisible = 0;
+			defaultConfigurationName = Release;
+		};
+/* End XCConfigurationList section */
+	};
+	rootObject = 8464C10514683D7F00BDA7EB /* Project object */;
+}

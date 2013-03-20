@@ -1,0 +1,5 @@
+echo "building Betting Game..."
+
+g++ -o bg -O3 main.cpp
+
+echo "build complete!"

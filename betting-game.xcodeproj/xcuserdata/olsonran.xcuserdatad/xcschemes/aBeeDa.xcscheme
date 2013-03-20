@@ -35,7 +35,7 @@
       launchStyle = "0"
       useCustomWorkingDirectory = "YES"
       customWorkingDirectory = "/Users/olsonran/Documents/experiments/betting-game/work"
-      buildConfiguration = "Release"
+      buildConfiguration = "Debug"
       ignoresPersistentStateOnLaunch = "NO"
       debugDocumentVersioning = "YES"
       allowLocationSimulation = "YES">
@@ -50,7 +50,7 @@
       </BuildableProductRunnable>
       <CommandLineArguments>
          <CommandLineArgument
-            argument = "-e lod.csv -n 10"
+            argument = "-e lod.csv -n 10 -p 1000 -m 0.5"
             isEnabled = "YES">
          </CommandLineArgument>
       </CommandLineArguments>

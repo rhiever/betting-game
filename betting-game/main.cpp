@@ -35,6 +35,7 @@
 
 //double  replacementRate             = 0.1;
 double  mutationRate                = 0.1;
+double  migrationRate               = 0.0;
 int     populationSize              = 16000;
 int     numGroups                   = 1;
 int     groupSize                   = populationSize / numGroups;
@@ -51,7 +52,7 @@ public:
     
     bettingAgent();
     ~bettingAgent();
-    void inherit(bettingAgent *a, int generation);
+    void inherit(bettingAgent *a, double mr, int generation);
     void calcFitness();
 };
 
@@ -79,14 +80,14 @@ bettingAgent::~bettingAgent()
     }
 }
 
-void bettingAgent::inherit(bettingAgent *a, int generation)
+void bettingAgent::inherit(bettingAgent *a, double mr, int generation)
 {
     born = generation;
     a->nrPointingAtMe += 1;
     ancestor = a;
     probability = a->probability;
     
-    if (randDouble < mutationRate)
+    if (randDouble < mr)
     {
         do
         {
@@ -178,6 +179,25 @@ int main(int argc, char *argv[])
                 exit(0);
             }
         }
+        
+        // -m [double]: set GA inter-group migration rate
+        else if (strcmp(argv[i], "-m") == 0 && (i + 1) < argc)
+        {
+            ++i;
+            
+            migrationRate = atof(argv[i]);
+            
+            if (migrationRate < 0.0)
+            {
+                cerr << "minimum migration rate permitted is 0.0." << endl;
+                exit(0);
+            }
+            else if (migrationRate > 1.0)
+            {
+                cerr << "maximum migration rate permitted is 1.0." << endl;
+                exit(0);
+            }
+        }
     }
     
     // determine group size
@@ -225,6 +245,7 @@ int main(int argc, char *argv[])
     // main loop
 	for (int update = 1; update <= totalGenerations; ++update)
     {
+        // perform fitness evaluation, selection, and reproduction separately for each group
         for (int groupNum = 0; groupNum < numGroups; ++groupNum)
         {
             // determine fitness of population
@@ -257,7 +278,7 @@ int main(int argc, char *argv[])
                     j = rand() % groupSize;
                 } while((j == i) || (randDouble > (bettingAgentPops[groupNum][j]->fitness / bettingAgentMaxFitness[groupNum])));
                 
-                offspring->inherit(bettingAgentPops[groupNum][j], update);
+                offspring->inherit(bettingAgentPops[groupNum][j], mutationRate, update);
                 BANextGenPops[groupNum][i] = offspring;
             }
             
@@ -272,6 +293,37 @@ int main(int argc, char *argv[])
             }
             
             bettingAgentPops[groupNum] = BANextGenPops[groupNum];
+        }
+        
+        // perform migration between groups
+        for (int groupNum = 0; groupNum < numGroups; ++groupNum)
+        {
+            for(int i = 0; i < groupSize; ++i)
+            {
+                // if agent migrates,
+                if (numGroups > 1 && randDouble <= migrationRate)
+                {
+                    bettingAgent *clone = new bettingAgent;
+                    clone->inherit(bettingAgentPops[groupNum][i], 0.0, update);
+                    
+                    int newGroupNum = groupNum;
+                    
+                    while (newGroupNum == groupNum)
+                    {
+                        newGroupNum = rand() % numGroups;
+                    }
+                    
+                    int newGroupPosition = rand() % groupSize;
+                    
+                    if (bettingAgentPops[newGroupNum][newGroupPosition]->nrPointingAtMe == 0)
+                    {
+                        delete bettingAgentPops[newGroupNum][newGroupPosition];
+                        bettingAgentPops[newGroupNum][newGroupPosition] = NULL;
+                    }
+                    
+                    bettingAgentPops[newGroupNum][newGroupPosition] = clone;
+                }
+            }
         }
         
         if (update == 1 || update % 1000 == 0)

@@ -14,7 +14,7 @@
             <BuildableReference
                BuildableIdentifier = "primary"
                BlueprintIdentifier = "8464C10D14683D7F00BDA7EB"
-               BuildableName = "eos-ap"
+               BuildableName = "betting-game"
                BlueprintName = "betting-game"
                ReferencedContainer = "container:betting-game.xcodeproj">
             </BuildableReference>
@@ -43,14 +43,14 @@
          <BuildableReference
             BuildableIdentifier = "primary"
             BlueprintIdentifier = "8464C10D14683D7F00BDA7EB"
-            BuildableName = "eos-ap"
+            BuildableName = "betting-game"
             BlueprintName = "betting-game"
             ReferencedContainer = "container:betting-game.xcodeproj">
          </BuildableReference>
       </BuildableProductRunnable>
       <CommandLineArguments>
          <CommandLineArgument
-            argument = "-e lod.csv -n 10 -p 1000 -m 0.5"
+            argument = "-e lod.csv -n 100 -p 1600 -m 0.5"
             isEnabled = "YES">
          </CommandLineArgument>
       </CommandLineArguments>
@@ -61,14 +61,14 @@
       shouldUseLaunchSchemeArgsEnv = "YES"
       savedToolIdentifier = ""
       useCustomWorkingDirectory = "YES"
-      customWorkingDirectory = "/Users/olsonran/Documents/experiments/eos/work"
+      customWorkingDirectory = "/Users/olsonran/Documents/experiments/betting-game/work"
       buildConfiguration = "Debug"
       debugDocumentVersioning = "YES">
       <BuildableProductRunnable>
          <BuildableReference
             BuildableIdentifier = "primary"
             BlueprintIdentifier = "8464C10D14683D7F00BDA7EB"
-            BuildableName = "eos-ap"
+            BuildableName = "betting-game"
             BlueprintName = "betting-game"
             ReferencedContainer = "container:betting-game.xcodeproj">
          </BuildableReference>

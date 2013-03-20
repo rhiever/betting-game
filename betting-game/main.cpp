@@ -60,7 +60,7 @@ bettingAgent::bettingAgent()
 {
     probability = 0.0;
     fitness = 0.0;
-    nrPointingAtMe = 0;
+    nrPointingAtMe = 1;
     born = 0;
     ancestor = NULL;
 }
@@ -73,6 +73,7 @@ bettingAgent::~bettingAgent()
         
         if (ancestor->nrPointingAtMe == 0)
         {
+            cout << "deleting ancestor" << endl;
             delete ancestor;
         }
         
@@ -105,7 +106,7 @@ void bettingAgent::calcFitness()
     }
     else
     {
-        fitness = 0.0000000001;
+        fitness = 0.001;
     }
 }
 
@@ -272,7 +273,6 @@ int main(int argc, char *argv[])
                 // construct new agent population for the next generation
                 bettingAgent *offspring = new bettingAgent;
                 int j = 0;
-                
                 do
                 {
                     j = rand() % groupSize;

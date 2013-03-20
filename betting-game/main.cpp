@@ -199,6 +199,25 @@ int main(int argc, char *argv[])
                 exit(0);
             }
         }
+        
+        // -mr [double]: set GA mutation rate
+        else if (strcmp(argv[i], "-mr") == 0 && (i + 1) < argc)
+        {
+            ++i;
+            
+            mutationRate = atof(argv[i]);
+            
+            if (mutationRate < 0.0)
+            {
+                cerr << "minimum mutation rate permitted is 0.0." << endl;
+                exit(0);
+            }
+            else if (mutationRate > 1.0)
+            {
+                cerr << "maximum mutation rate permitted is 1.0." << endl;
+                exit(0);
+            }
+        }
     }
     
     // determine group size

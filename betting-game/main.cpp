@@ -36,6 +36,8 @@
 //double  replacementRate             = 0.1;
 double  mutationRate                = 0.1;
 int     populationSize              = 16000;
+int     numGroups                   = 1;
+int     groupSize                   = populationSize / numGroups;
 int     totalGenerations            = 10000;
 
 using namespace std;
@@ -50,6 +52,7 @@ public:
     bettingAgent();
     ~bettingAgent();
     void inherit(bettingAgent *a, int generation);
+    void calcFitness();
 };
 
 bettingAgent::bettingAgent()
@@ -91,14 +94,28 @@ void bettingAgent::inherit(bettingAgent *a, int generation)
             
         } while (probability == 0.0);
     }
-
 }
+
+void bettingAgent::calcFitness()
+{
+    if (randDouble <= probability)
+    {
+        fitness = 1.0 / probability;
+    }
+    else
+    {
+        fitness = 0.0000000001;
+    }
+}
+
+
+
 
 int main(int argc, char *argv[])
 {
-	vector<bettingAgent*> bettingAgents, BANextGen;
-	bettingAgent* bestBettingAgent = NULL;
-	double bettingAgentMaxFitness = 0.0;
+	vector< vector<bettingAgent*> > bettingAgentPops, BANextGenPops;
+	vector<bettingAgent*> bestBettingAgents;
+	vector<double> bettingAgentMaxFitness, bettingAgentAvgFitness;
     string LODFileName = "";
     
     // time-based seed by default. can change with command-line parameter.
@@ -147,97 +164,131 @@ int main(int argc, char *argv[])
                 exit(0);
             }
         }
+        
+        // -n [int]: set number of groups in GA
+        else if (strcmp(argv[i], "-n") == 0 && (i + 1) < argc)
+        {
+            ++i;
+            
+            numGroups = atoi(argv[i]);
+            
+            if (numGroups < 1)
+            {
+                cerr << "minimum number of groups permitted is 1." << endl;
+                exit(0);
+            }
+        }
     }
     
+    // determine group size
+    if (populationSize % numGroups != 0)
+    {
+        cerr << "Population size must be evenly divisible by number of groups." << endl;
+        exit(0);
+    }
+    
+    groupSize = populationSize / numGroups;
+    
     // initial population setup
-    bettingAgents.resize(populationSize);
-    BANextGen.resize(populationSize);
+    bettingAgentAvgFitness.resize(numGroups);
+    bettingAgentMaxFitness.resize(numGroups);
+    bestBettingAgents.resize(numGroups);
+    bettingAgentPops.resize(numGroups);
+    BANextGenPops.resize(numGroups);
+    
+    for (int i = 0; i < numGroups; ++i)
+    {
+        bettingAgentPops[i].resize(groupSize);
+        BANextGenPops[i].resize(groupSize);
+    }
     
     // seed the agents
-	for(int i = 0; i < populationSize; ++i)
+	for(int i = 0; i < numGroups; ++i)
     {
-		bettingAgents[i] = new bettingAgent;
-        
-        do
+        for (int j = 0; j < groupSize; ++j)
         {
-            bettingAgents[i]->probability = randDouble;
+            bettingAgentPops[i][j] = new bettingAgent;
             
-        } while (bettingAgents[i]->probability == 0.0);
-        
-        bettingAgents[i]->born = 1;
+            do
+            {
+                bettingAgentPops[i][j]->probability = randDouble;
+                
+            } while (bettingAgentPops[i][j]->probability == 0.0);
+            
+            bettingAgentPops[i][j]->born = 1;
+        }
     }
     
 	cout << "setup complete" << endl;
     cout << "starting evolution" << endl;
     
     // main loop
-	for (int update = 2; update <= totalGenerations; ++update)
+	for (int update = 1; update <= totalGenerations; ++update)
     {
-        // determine fitness of population
-		bettingAgentMaxFitness = 0.0;
-        double bettingAgentAvgFitness = 0.0;
-        
-		for(int i = 0; i < populationSize; ++i)
+        for (int groupNum = 0; groupNum < numGroups; ++groupNum)
         {
-            if (randDouble <= bettingAgents[i]->probability)
+            // determine fitness of population
+            bettingAgentMaxFitness[groupNum] = 0.0;
+            bettingAgentAvgFitness[groupNum] = 0.0;
+            
+            for(int i = 0; i < groupSize; ++i)
             {
-                bettingAgents[i]->fitness = 1.0 / bettingAgents[i]->probability;
-            }
-            else
-            {
-                bettingAgents[i]->fitness = 0.0000000001;
+                bettingAgentPops[groupNum][i]->calcFitness();
+                
+                bettingAgentAvgFitness[groupNum] += bettingAgentPops[groupNum][i]->fitness;
+                
+                if(bettingAgentPops[groupNum][i]->fitness > bettingAgentMaxFitness[groupNum])
+                {
+                    bettingAgentMaxFitness[groupNum] = bettingAgentPops[groupNum][i]->fitness;
+                    bestBettingAgents[groupNum] = bettingAgentPops[groupNum][i];
+                }
             }
             
-            bettingAgentAvgFitness += bettingAgents[i]->fitness;
+            bettingAgentAvgFitness[groupNum] /= (double)groupSize;
             
-            if(bettingAgents[i]->fitness > bettingAgentMaxFitness)
+            for(int i = 0; i < groupSize; ++i)
             {
-                bettingAgentMaxFitness = bettingAgents[i]->fitness;
-                bestBettingAgent = bettingAgents[i];
+                // construct new agent population for the next generation
+                bettingAgent *offspring = new bettingAgent;
+                int j = 0;
+                
+                do
+                {
+                    j = rand() % groupSize;
+                } while((j == i) || (randDouble > (bettingAgentPops[groupNum][j]->fitness / bettingAgentMaxFitness[groupNum])));
+                
+                offspring->inherit(bettingAgentPops[groupNum][j], update);
+                BANextGenPops[groupNum][i] = offspring;
             }
-		}
+            
+            for(int i = 0; i < groupSize; ++i)
+            {
+                // replace the agents from the previous generation
+                if(bettingAgentPops[groupNum][i]->nrPointingAtMe == 0)
+                {
+                    delete bettingAgentPops[groupNum][i];
+                }
+                bettingAgentPops[groupNum][i] = BANextGenPops[groupNum][i];
+            }
+            
+            bettingAgentPops[groupNum] = BANextGenPops[groupNum];
+        }
         
-        bettingAgentAvgFitness /= (double)populationSize;
-		
         if (update == 1 || update % 1000 == 0)
         {
-            cout << "generation " << update << ": betting agent [" << bettingAgentAvgFitness << " : " << bettingAgentMaxFitness << "] " << bestBettingAgent->probability << endl;
+            cout << "generation " << update << ": betting agent [" << bettingAgentAvgFitness[0] << " : " << bettingAgentMaxFitness[0] << "] " << bestBettingAgents[0]->probability << endl;
         }
-        
-        for(int i = 0; i < populationSize; ++i)
-        {
-            // construct agent population for the next generation
-            bettingAgent *offspring = new bettingAgent;
-            int j = 0;
-            
-            do
-            {
-                j = rand() % populationSize;
-            } while((j == i) || (randDouble > (bettingAgents[j]->fitness / bettingAgentMaxFitness)));
-            
-            offspring->inherit(bettingAgents[j], update);
-            BANextGen[i] = offspring;
-        }
-        
-        for(int i = 0; i < populationSize; ++i)
-        {
-            // replace the agents from the previous generation
-            if(bettingAgents[i]->nrPointingAtMe == 0)
-            {
-                delete bettingAgents[i];
-            }
-            bettingAgents[i] = BANextGen[i];
-        }
-        
-        bettingAgents = BANextGen;
 	}
+    
+    // calculate the final betting agent's fitness
+    bettingAgentPops[0][0]->calcFitness();
 	
     // save best agent's LOD
     vector<bettingAgent*> saveLOD;
     
     cout << "building ancestor list" << endl;
     
-    bettingAgent* curAncestor = bettingAgents[0];
+    bettingAgent* curAncestor = bettingAgentPops[0][0];
     
     while (curAncestor != NULL)
     {
